@@ -28,6 +28,9 @@ public class PlayerMovement : MonoBehaviour
     public AudioClip bounceSound;
     public AudioClip winningSound;
     private AudioSource audioSource;
+    public AudioSource backgroundMusicSource; // Reference to the background music source
+
+    public GameOverScreen gameOverScreen; // Reference to the GameOverScreen script
 
     void Start()
     {   
@@ -121,7 +124,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Die() {
         if (gameOverSound != null && audioSource != null) {
-            audioSource.PlayOneShot(gameOverSound, 0.4f);
+            audioSource.PlayOneShot(gameOverSound, 0.8f);
         }
         Debug.Log("🔥 Die() function triggered!"); // Check if this prints in the Console
         isDead = true; // Mark player as dead
@@ -129,7 +132,22 @@ public class PlayerMovement : MonoBehaviour
         rb.bodyType = RigidbodyType2D.Kinematic; // Disable physics
         GetComponent<Collider2D>().enabled = false; // Disable collisions
         animator.Play("deathAnimation");
-        Invoke("RestartLevel", 1.5f); // Wait 1 sec, then restart
+        
+        Invoke("ShowGameOverScreen", 1f); // Wait 1 sec, then show Game Over screen
+    }
+
+    void ShowGameOverScreen() {
+        if (gameOverScreen != null) {
+            gameOverScreen.showGameOverScreen(); // Show the Game Over screen
+        } else {
+            Debug.LogError("GameOverScreen reference is not set in PlayerMovement script.");
+        }
+
+        if (backgroundMusicSource != null) {
+            backgroundMusicSource.Stop(); // Stop the background music
+        } else {
+            Debug.LogError("Background music source is not set in PlayerMovement script.");
+        }
     }
 
     void RestartLevel() {
