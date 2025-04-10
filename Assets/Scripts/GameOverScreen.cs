@@ -35,6 +35,12 @@ public class GameOverScreen : MonoBehaviour
         UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
     }
 
+    public void ShowMainMenu()
+    {
+        // Load the main menu scene (assuming it's the first scene in the build settings)
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+    }
+
     public void QuitGame()
     {
         // Quit the application (works in built version, not in editor)

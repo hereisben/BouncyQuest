@@ -31,6 +31,7 @@ public class PlayerMovement : MonoBehaviour
     public AudioSource backgroundMusicSource; // Reference to the background music source
 
     public GameOverScreen gameOverScreen; // Reference to the GameOverScreen script
+    public WinScreen winScreen; // Reference to the WinScreen script
 
     void Start()
     {   
@@ -182,11 +183,16 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void LoadNextScene() {
-        int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
-        if (nextSceneIndex < SceneManager.sceneCountInBuildSettings) {
-            SceneManager.LoadScene(nextSceneIndex);
+        if (winScreen != null) {
+            winScreen.Show(); // Show the Win screen
         } else {
-            Debug.Log("No more level!");
+            Debug.LogError("WinScreen reference is not set in PlayerMovement script.");
+        }
+
+        if (backgroundMusicSource != null) {
+            backgroundMusicSource.Stop(); // Stop the background music
+        } else {
+            Debug.LogError("Background music source is not set in PlayerMovement script.");
         }
     }
 }

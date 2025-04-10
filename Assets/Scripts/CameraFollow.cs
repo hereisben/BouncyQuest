@@ -3,15 +3,15 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
     public Transform slime; // Assign Slime GameObject here
-    public float smoothSpeed = 0.125f;
-    public Vector3 offset; // Adjust this in the Inspector
+    public float smoothSpeed = 0.125f; // Speed of camera movement
+    public Vector3 offset; // Offset from the slime's position
     
-    public float minX = -9f;
-    public float maxX = 11.5f;
-    public float minY = -5.2f;
-    public float maxY = 5.6f;
+    public float minX = -9f; // Minimum X position for camera bounds
+    public float maxX = 11.5f; // Maximum X position for camera bounds
+    public float minY = -5.2f; // Minimum Y position for camera bounds
+    public float maxY = 5.6f; // Maximum Y position for camera bounds
 
-    private float camHalfWidth, camHalfHeight;
+    private float camHalfWidth, camHalfHeight; // Half-width and half-height of the camera
 
     void Start()
     {   
