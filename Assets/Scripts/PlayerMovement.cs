@@ -32,7 +32,7 @@ public class PlayerMovement : MonoBehaviour
 
     public GameOverScreen gameOverScreen; // Reference to the GameOverScreen script
     public WinScreen winScreen; // Reference to the WinScreen script
-
+    private bool hasWon = false; // Flag to check if the player has won
     void Start()
     {   
         animator = GetComponent<Animator>();
@@ -157,7 +157,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Bounce() {
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, bounceForce); // FIXED velocity assignment
-        if (bounceSound != null && audioSource != null) {
+        if (!hasWon && bounceSound != null && audioSource != null) {
             audioSource.PlayOneShot(bounceSound, 0.2f);
         }
     }
@@ -174,6 +174,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         if (starCount >= totalStars) {
+            hasWon = true; // Set the win flag to true
             Debug.Log("All stars collected!");
             if (winningSound != null && audioSource != null) {
                 audioSource.PlayOneShot(winningSound, 0.4f);
