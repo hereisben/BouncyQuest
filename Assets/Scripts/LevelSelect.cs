@@ -11,7 +11,7 @@ public class LevelSelect : MonoBehaviour
     {
         int totalLevels = SceneManager.sceneCountInBuildSettings; // Get total number of scenes in build settings
 
-        for (int i = 1; i < totalLevels; i++) // Start from 1 to skip the first scene (usually the main menu)
+        for (int i = 1; i < totalLevels; i++) // Start from 1 to skip the first scene (the main menu)
         {
             GameObject button = Instantiate(levelButtonPrefab, buttonContainer); // Create a new button instance
             TextMeshProUGUI[] texts = button.GetComponentsInChildren<TextMeshProUGUI>(); // Get all TextMeshPro components in the button

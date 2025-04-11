@@ -127,7 +127,7 @@ public class PlayerMovement : MonoBehaviour
         if (gameOverSound != null && audioSource != null) {
             audioSource.PlayOneShot(gameOverSound, 0.8f);
         }
-        Debug.Log("🔥 Die() function triggered!"); // Check if this prints in the Console
+        Debug.Log("🔥 Die() function triggered!"); 
         isDead = true; // Mark player as dead
         rb.linearVelocity = Vector2.zero; // Stop movement
         rb.bodyType = RigidbodyType2D.Kinematic; // Disable physics

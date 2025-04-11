@@ -28,9 +28,9 @@ public class PauseMenu : MonoBehaviour
 
     public void Quit() {
         #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false; // Stop play mode in the editor
+            UnityEditor.EditorApplication.isPlaying = false; 
         #else
-            Application.Quit(); // Quit the application
+            Application.Quit(); 
         #endif
     }
 }

@@ -37,17 +37,17 @@ public class GameOverScreen : MonoBehaviour
 
     public void ShowMainMenu()
     {
-        // Load the main menu scene (assuming it's the first scene in the build settings)
+        // Load the main menu scene 
         UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
 
     public void QuitGame()
     {
-        // Quit the application (works in built version, not in editor)
+        // Quit the application
         #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false; // Stop play mode in the editor
+            UnityEditor.EditorApplication.isPlaying = false; 
         #else
-            Application.Quit(); // Quit the application
+            Application.Quit(); 
         #endif
     }
 }

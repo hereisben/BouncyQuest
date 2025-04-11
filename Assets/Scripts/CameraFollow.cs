@@ -16,8 +16,8 @@ public class CameraFollow : MonoBehaviour
     void Start()
     {   
         // Get the camera's half-width and half-height based on its size
-        Camera cam = GetComponent<Camera>();
-        camHalfHeight = cam.orthographicSize;
+        Camera cam = GetComponent<Camera>(); 
+        camHalfHeight = cam.orthographicSize; 
         camHalfWidth = camHalfHeight * cam.aspect; // Aspect ratio ensures correct width
     }
 
