@@ -34,14 +34,14 @@ public class PlayerMovement : MonoBehaviour
     public WinScreen winScreen; // Reference to the WinScreen script
     private bool hasWon = false; // Flag to check if the player has won
     void Start()
-    {   
+    {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         audioSource = GetComponent<AudioSource>();
     }
 
     void FixedUpdate()
-    {   
+    {
         UpdateAnimation();
         Move();
 
@@ -49,27 +49,36 @@ public class PlayerMovement : MonoBehaviour
         float clampedY = Mathf.Clamp(rb.position.y, minY, maxY);
 
         rb.position = new Vector2(clampedX, clampedY);
-    
-        if (onMovingPlatform) {
+
+        if (onMovingPlatform)
+        {
             Vector3 platformMovement = platformTransform.position - lastPlatformPosition;
             transform.position += platformMovement;
             lastPlatformPosition = platformTransform.position;
         }
 
-        if (transform.position.y < -7f) {
+        if (transform.position.y < -7f)
+        {
             Die();
         }
     }
 
-    void UpdateAnimation() {
+    void UpdateAnimation()
+    {
         if (isDead) return;
-        if (Mathf.Abs(rb.linearVelocity.y) > 0.1f) { // FIXED velocity check
-            if (Mathf.Abs(rb.linearVelocity.x) > 0.1f) {
+        if (Mathf.Abs(rb.linearVelocity.y) > 0.1f)
+        { // FIXED velocity check
+            if (Mathf.Abs(rb.linearVelocity.x) > 0.1f)
+            {
                 animator.Play("jumpwalkAnimation");
-            } else {
+            }
+            else
+            {
                 animator.Play("jumpAnimation");
             }
-        } else {
+        }
+        else
+        {
             animator.Play("idleAnimation");
         }
     }
@@ -80,9 +89,12 @@ public class PlayerMovement : MonoBehaviour
         float moveInput = Input.GetAxis("Horizontal");
         rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y); // FIXED velocity assignment
 
-        if (moveInput > 0) {
+        if (moveInput > 0)
+        {
             transform.localScale = new Vector3(3, 3, 1);
-        } else if (moveInput < 0) {
+        }
+        else if (moveInput < 0)
+        {
             transform.localScale = new Vector3(-3, 3, 1);
         }
     }
@@ -92,12 +104,13 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             Bounce();
-        } 
-        else if (collision.gameObject.CompareTag("MovingPlatform")) {
+        }
+        else if (collision.gameObject.CompareTag("MovingPlatform"))
+        {
             ContactPoint2D contact = collision.GetContact(0);
 
             // FIXED condition: Check if landing on top
-            if (contact.normal.y > 0.5f)  
+            if (contact.normal.y > 0.5f)
             {
                 Bounce();
                 onMovingPlatform = true;
@@ -107,92 +120,122 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void OnCollisionExit2D(Collision2D collision) {
-        if (collision.gameObject.CompareTag("MovingPlatform")) {
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("MovingPlatform"))
+        {
             onMovingPlatform = false;
         }
     }
 
-    void OnTriggerEnter2D(Collider2D collision) {
-        if (collision.CompareTag("Spike") || collision.CompareTag("Thorn")) {
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Spike") || collision.CompareTag("Thorn"))
+        {
             Die();
-        } else if (collision.CompareTag("Star")) {
+        }
+        else if (collision.CompareTag("Star"))
+        {
             CollectStar(collision.gameObject);
         }
     }
-    
+
     private bool isDead = false;
 
-    void Die() {
-        if (gameOverSound != null && audioSource != null) {
+    void Die()
+    {
+        if (gameOverSound != null && audioSource != null)
+        {
             audioSource.PlayOneShot(gameOverSound, 0.8f);
         }
-        Debug.Log("🔥 Die() function triggered!"); 
+        Debug.Log("🔥 Die() function triggered!");
         isDead = true; // Mark player as dead
         rb.linearVelocity = Vector2.zero; // Stop movement
         rb.bodyType = RigidbodyType2D.Kinematic; // Disable physics
         GetComponent<Collider2D>().enabled = false; // Disable collisions
         animator.Play("deathAnimation");
-        
+
         Invoke("ShowGameOverScreen", 1f); // Wait 1 sec, then show Game Over screen
     }
 
-    void ShowGameOverScreen() {
-        if (gameOverScreen != null) {
+    void ShowGameOverScreen()
+    {
+        if (gameOverScreen != null)
+        {
             gameOverScreen.showGameOverScreen(); // Show the Game Over screen
-        } else {
+        }
+        else
+        {
             Debug.LogError("GameOverScreen reference is not set in PlayerMovement script.");
         }
 
-        if (backgroundMusicSource != null) {
+        if (backgroundMusicSource != null)
+        {
             backgroundMusicSource.Stop(); // Stop the background music
-        } else {
+        }
+        else
+        {
             Debug.LogError("Background music source is not set in PlayerMovement script.");
         }
     }
 
-    void RestartLevel() {
+    void RestartLevel()
+    {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    void Bounce() {
+    void Bounce()
+    {
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, bounceForce); // FIXED velocity assignment
-        if (!hasWon && bounceSound != null && audioSource != null) {
+        if (!hasWon && bounceSound != null && audioSource != null)
+        {
             audioSource.PlayOneShot(bounceSound, 0.2f);
         }
     }
 
-    void CollectStar(GameObject star) {
+    void CollectStar(GameObject star)
+    {
         starCount++;
         Destroy(star);
-        if (starCollectSound != null && audioSource != null) {
+        if (starCollectSound != null && audioSource != null)
+        {
             audioSource.PlayOneShot(starCollectSound, 0.8f);
         }
 
-        if (starCount <= starUIAnimators.Length) {
+        if (starCount <= starUIAnimators.Length)
+        {
             starUIAnimators[starCount - 1].SetTrigger("Collect");
         }
 
-        if (starCount >= totalStars) {
+        if (starCount >= totalStars)
+        {
             hasWon = true; // Set the win flag to true
             Debug.Log("All stars collected!");
-            if (winningSound != null && audioSource != null) {
+            if (winningSound != null && audioSource != null)
+            {
                 audioSource.PlayOneShot(winningSound, 0.4f);
             }
             Invoke("LoadNextScene", 1f); // Wait 1 sec, then load next scene
-        } 
+        }
     }
 
-    void LoadNextScene() {
-        if (winScreen != null) {
+    void LoadNextScene()
+    {
+        if (winScreen != null)
+        {
             winScreen.Show(); // Show the Win screen
-        } else {
+        }
+        else
+        {
             Debug.LogError("WinScreen reference is not set in PlayerMovement script.");
         }
 
-        if (backgroundMusicSource != null) {
+        if (backgroundMusicSource != null)
+        {
             backgroundMusicSource.Stop(); // Stop the background music
-        } else {
+        }
+        else
+        {
             Debug.LogError("Background music source is not set in PlayerMovement script.");
         }
     }

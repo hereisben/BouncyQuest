@@ -2,19 +2,30 @@ using UnityEngine;
 
 public class MovingPlatform : MonoBehaviour
 {
-    public float speed = 2f; // Speed of platform movement
-    public float moveDistance = 3f; // How far the platform moves
+    public enum MovementType { Horizontal, Vertical }
+    public MovementType movementType = MovementType.Horizontal;
+
+    public float speed = 2f;
+    public float moveDistance = 3f;
 
     private Vector3 startPos;
 
     void Start()
     {
-        startPos = transform.position; // Store the starting position
+        startPos = transform.position;
     }
 
     void Update()
     {
         float movement = Mathf.PingPong(Time.time * speed, moveDistance * 2) - moveDistance;
-        transform.position = new Vector3(startPos.x + movement, transform.position.y, transform.position.z);
+
+        if (movementType == MovementType.Horizontal)
+        {
+            transform.position = new Vector3(startPos.x + movement, startPos.y, startPos.z);
+        }
+        else if (movementType == MovementType.Vertical)
+        {
+            transform.position = new Vector3(startPos.x, startPos.y + movement, startPos.z);
+        }
     }
 }

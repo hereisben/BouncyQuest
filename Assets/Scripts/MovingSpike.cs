@@ -13,7 +13,7 @@ public class MovingSpike : MonoBehaviour
         SnapToGround(); // Auto-position on ground
     }
 
-    void Update()
+    void FixedUpdate()
     {
         MoveSpike();
     }

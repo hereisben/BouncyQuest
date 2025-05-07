@@ -9,7 +9,8 @@ public class WinScreen : MonoBehaviour
     public GameObject nextLevelButton; // Reference to the Next Level button
     public GameObject restartButton; // Reference to the Restart button
 
-    public void Show() {
+    public void Show()
+    {
         // Activate the Win screen UI
         gameObject.SetActive(true);
         StartCoroutine(FadeIn()); // Start the fade-in effect
@@ -17,21 +18,26 @@ public class WinScreen : MonoBehaviour
         int currentIndex = UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex;
         int totalScenes = UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings;
 
-        if (currentIndex == totalScenes - 1) {
+        if (currentIndex == totalScenes - 1)
+        {
             // If it's the last level, show the restart button instead of next level
             nextLevelButton.SetActive(false);
             restartButton.SetActive(true);
-        } else {
+        }
+        else
+        {
             // Show the next level button
             nextLevelButton.SetActive(true);
             restartButton.SetActive(false);
         }
     }
 
-    IEnumerator FadeIn() {
+    IEnumerator FadeIn()
+    {
         float elapsedTime = 0f;
         winCanvasGroup.alpha = 0f; // Start with transparent
-        while (elapsedTime < fadeDuration) {
+        while (elapsedTime < fadeDuration)
+        {
             elapsedTime += Time.deltaTime;
             winCanvasGroup.alpha = Mathf.Lerp(0f, 1f, elapsedTime / fadeDuration);
             yield return null; // Wait for the next frame
@@ -39,30 +45,37 @@ public class WinScreen : MonoBehaviour
         winCanvasGroup.alpha = 1f; // Ensure it's fully opaque at the end
     }
 
-    public void NextLevel() {
+    public void NextLevel()
+    {
         int nextSceneIndex = UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex + 1;
-        if (nextSceneIndex < UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings) {
+        if (nextSceneIndex < UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings)
+        {
             UnityEngine.SceneManagement.SceneManager.LoadScene(nextSceneIndex);
-        } else {
+        }
+        else
+        {
             Debug.Log("No more levels!");
         }
     }
 
-    public void RestartLevel() {
+    public void RestartLevel()
+    {
         // Reload the current scene to restart the game
         UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
     }
 
-    public void ShowMainMenu() {
+    public void ShowMainMenu()
+    {
         // Load the main menu scene
         UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
 
-    public void Quit() {
-        #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false; 
-        #else
+    public void Quit()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
             Application.Quit(); 
-        #endif
+#endif
     }
 }

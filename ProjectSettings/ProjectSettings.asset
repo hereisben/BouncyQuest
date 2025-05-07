@@ -683,11 +683,11 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: a2377d93-4d61-4ee8-987b-ecf31705e65f
+  cloudProjectId: d95017fa-082b-4463-b166-64e771be00b9
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
   projectName: BouncyQuest
-  organizationId: unity_f5192b897e7b608d967e
+  organizationId: unity_de1d461888c6ed2b0560
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
